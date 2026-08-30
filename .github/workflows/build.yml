@@ -1,0 +1,56 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Extract Android Project ZIP
+        run: |
+          mkdir -p project
+          unzip -q UdharHisabProject.zip -d project
+
+          echo "Extracted files:"
+          find project -maxdepth 4 -type f | head -100
+
+      - name: Find Gradle Project
+        run: |
+          BUILD_FILE=$(find project -name "settings.gradle.kts" -o -name "settings.gradle" | head -1)
+
+          if [ -z "$BUILD_FILE" ]; then
+            echo "ERROR: settings.gradle(.kts) not found"
+            exit 1
+          fi
+
+          PROJECT_DIR=$(dirname "$BUILD_FILE")
+          echo "Found project at: $PROJECT_DIR"
+          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.5
+
+      - name: Build Debug APK
+        run: |
+          cd "$PROJECT_DIR"
+          gradle clean assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Udhar-Hisab-debug-apk
+          path: |
+            ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/*.apk
