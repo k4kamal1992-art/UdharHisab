@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: কোড ডাউনলোড
         uses: actions/checkout@v4
+
       - name: প্রজেক্ট ফোল্ডার root-এ আনা
         run: |
           shopt -s dotglob
@@ -19,7 +20,6 @@ jobs:
             rmdir DharHisab
           fi
           ls -la
-
 
       # ⭐ সরাসরি Gradle ইনস্টল — gradlew ফাইল লাগবে না!
       - name: Gradle সেটআপ
@@ -35,9 +35,8 @@ jobs:
 
       # ⭐ ./gradlew নয় — শুধু gradle
       - name: APK বিল্ড
-         run: gradle assembleDebug --no-daemon
-         working-directory: DharHisab
-          
+        run: gradle assembleDebug --no-daemon
+
       - name: APK আপলোড
         uses: actions/upload-artifact@v4
         with:
