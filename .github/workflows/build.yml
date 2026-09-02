@@ -12,14 +12,26 @@ jobs:
       - name: কোড ডাউনলোড
         uses: actions/checkout@v4
 
-      - name: জিপ থেকে প্রজেক্ট বের করা
+      - name: ZIP আনজিপ ও ফাইল root-এ আনা
         run: |
-          if [ -f "UdharHisabProject.zip" ]; then
-            unzip -o UdharHisabProject.zip -d extracted
-            shopt -s dotglob
-            mv extracted/UdharHisabProject/DharHisab/* .
-            rm -rf extracted UdharHisabProject.zip
-          fi
+          ls -la
+          ZIP_FILE=$(find . -maxdepth 2 -name "*.zip" | head -1)
+          echo "ZIP পাওয়া গেছে: $ZIP_FILE"
+          unzip -q "$ZIP_FILE" -d extracted
+          # ⭐ সবচেয়ে গভীরের settings.gradle.kts খুঁজে তার ফোল্ডার বের করা
+          PROJECT_DIR=(dirname"(dirname "(dirname"(find extracted -name "settings.gradle.kts" | head -1)")
+          echo "প্রজেক্ট ফোল্ডার: $PROJECT_DIR"
+          shopt -s dotglob
+          mv "$PROJECT_DIR"/* .
+          rm -rf extracted "$ZIP_FILE"
+          # ⭐ gradle.properties ZIP-এ নেই — এখানেই বানানো
+          cat > gradle.properties << 'EOF'
+          android.useAndroidX=true
+          android.enableJetifier=true
+          kotlin.code.style=official
+          org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+          EOF
+          echo "=== root-এ এখন যা আছে ==="
           ls -la
 
       - name: Gradle সেটআপ
