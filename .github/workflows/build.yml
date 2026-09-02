@@ -12,16 +12,16 @@ jobs:
       - name: কোড ডাউনলোড
         uses: actions/checkout@v4
 
-      - name: প্রজেক্ট ফোল্ডার root-এ আনা
+      - name: জিপ থেকে প্রজেক্ট বের করা
         run: |
-          shopt -s dotglob
-          if [ -d "DharHisab" ]; then
-            mv DharHisab/* .
-            rmdir DharHisab
+          if [ -f "UdharHisabProject.zip" ]; then
+            unzip -o UdharHisabProject.zip -d extracted
+            shopt -s dotglob
+            mv extracted/UdharHisabProject/DharHisab/* .
+            rm -rf extracted UdharHisabProject.zip
           fi
           ls -la
 
-      # ⭐ সরাসরি Gradle ইনস্টল — gradlew ফাইল লাগবে না!
       - name: Gradle সেটআপ
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -33,7 +33,6 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      # ⭐ ./gradlew নয় — শুধু gradle
       - name: APK বিল্ড
         run: gradle assembleDebug --no-daemon
 
