@@ -35,8 +35,9 @@ jobs:
 
       # ⭐ ./gradlew নয় — শুধু gradle
       - name: APK বিল্ড
-        run: gradle assembleDebug --no-daemon
-          working-directory: DharHisab
+         run: gradle assembleDebug --no-daemon
+         working-directory: DharHisab
+          
       - name: APK আপলোড
         uses: actions/upload-artifact@v4
         with:
