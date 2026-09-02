@@ -9,44 +9,41 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: কোড ডাউনলোড
+      - name: Code download
         uses: actions/checkout@v4
 
-      - name: ZIP আনজিপ ও ফাইল সাজানো
+      - name: Unzip and arrange files
         run: |
           ls -la
-          ZIP_FILE=$(find . -maxdepth 2 -name "*.zip" | head -1)
-          echo "ZIP pavua geche: $ZIP_FILE"
-          unzip -q "$ZIP_FILE" -d extracted
-          PROJECT_DIR=(dirname"(dirname "(dirname"(find extracted -name "settings.gradle.kts" | head -1)")
-
-          echo "Project folder: $PROJECT_DIR"
+          unzip -q UdharHisabProject.zip -d extracted
+          cd extracted/*/*/
           shopt -s dotglob
-          mv "$PROJECT_DIR"/* .
+          mv * ../../
+          cd ../..
           rm -rf extracted
-          rm -f "$ZIP_FILE"
+          rm -f UdharHisabProject.zip
           echo "android.useAndroidX=true" >> gradle.properties
           echo "android.enableJetifier=true" >> gradle.properties
           echo "kotlin.code.style=official" >> gradle.properties
           echo "org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8" >> gradle.properties
-          echo "=== root e ekhon ja ache ==="
+          echo "=== root files now ==="
           ls -la
 
-      - name: Gradle সেটআপ
+      - name: Gradle setup
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.7"
 
-      - name: Java সেটআপ
+      - name: Java setup
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
-      - name: APK বিল্ড
-        run: gradle assembleDebug --no-daemon
+      - name: Build APK
+        run: gradle assembleDebug --noemon
 
-      - name: APK আপলোড
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: UdharHisab-APK
