@@ -19,6 +19,7 @@ jobs:
           echo "ZIP pavua geche: $ZIP_FILE"
           unzip -q "$ZIP_FILE" -d extracted
           PROJECT_DIR=(dirname"(dirname "(dirname"(find extracted -name "settings.gradle.kts" | head -1)")
+
           echo "Project folder: $PROJECT_DIR"
           shopt -s dotglob
           mv "$PROJECT_DIR"/* .
