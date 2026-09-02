@@ -26,6 +26,16 @@ jobs:
           echo "=== root files now ==="
           ls -la
 
+      - name: Create missing resources
+        run: |
+          mkdir -p app/src/main/res/values
+          mkdir -p app/src/main/res/mipmap-anydpi-v26
+          printf '...' > app/src/main/res/values/themes.xml
+          printf '...' > app/src/main/res/values/colors.xml
+          printf '...' > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          echo "resources created"
+          ls app/src/main/res/values
+
       - name: Gradle setup
         uses: gradle/actions/setup-gradle@v4
         with:
