@@ -11,6 +11,15 @@ jobs:
     steps:
       - name: কোড ডাউনলোড
         uses: actions/checkout@v4
+      - name: প্রজেক্ট ফোল্ডার root-এ আনা
+        run: |
+          shopt -s dotglob
+          if [ -d "DharHisab" ]; then
+            mv DharHisab/* .
+            rmdir DharHisab
+          fi
+          ls -la
+
 
       # ⭐ সরাসরি Gradle ইনস্টল — gradlew ফাইল লাগবে না!
       - name: Gradle সেটআপ
