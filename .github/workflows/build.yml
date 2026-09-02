@@ -12,14 +12,11 @@ jobs:
       - name: Code download
         uses: actions/checkout@v4
 
-      - name: Unzip and arrange files
+      - name: Unzip and copy files to root
         run: |
           ls -la
           unzip -q UdharHisabProject.zip -d extracted
-          cd extracted/*/*/
-          shopt -s dotglob
-          mv * ../../
-          cd ../..
+          cp -r extracted/UdharHisabProject/UdharHisab/. .
           rm -rf extracted
           rm -f UdharHisabProject.zip
           echo "android.useAndroidX=true" >> gradle.properties
@@ -41,7 +38,7 @@ jobs:
           java-version: "17"
 
       - name: Build APK
-        run: gradle assembleDebug --noemon
+        run: gradle assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
