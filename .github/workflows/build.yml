@@ -12,26 +12,23 @@ jobs:
       - name: কোড ডাউনলোড
         uses: actions/checkout@v4
 
-      - name: ZIP আনজিপ ও ফাইল root-এ আনা
+      - name: ZIP আনজিপ ও ফাইল সাজানো
         run: |
           ls -la
           ZIP_FILE=$(find . -maxdepth 2 -name "*.zip" | head -1)
-          echo "ZIP পাওয়া গেছে: $ZIP_FILE"
+          echo "ZIP pavua geche: $ZIP_FILE"
           unzip -q "$ZIP_FILE" -d extracted
-          # ⭐ সবচেয়ে গভীরের settings.gradle.kts খুঁজে তার ফোল্ডার বের করা
           PROJECT_DIR=(dirname"(dirname "(dirname"(find extracted -name "settings.gradle.kts" | head -1)")
-          echo "প্রজেক্ট ফোল্ডার: $PROJECT_DIR"
+          echo "Project folder: $PROJECT_DIR"
           shopt -s dotglob
           mv "$PROJECT_DIR"/* .
-          rm -rf extracted "$ZIP_FILE"
-          # ⭐ gradle.properties ZIP-এ নেই — এখানেই বানানো
-          cat > gradle.properties << 'EOF'
-          android.useAndroidX=true
-          android.enableJetifier=true
-          kotlin.code.style=official
-          org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
-          EOF
-          echo "=== root-এ এখন যা আছে ==="
+          rm -rf extracted
+          rm -f "$ZIP_FILE"
+          echo "android.useAndroidX=true" >> gradle.properties
+          echo "android.enableJetifier=true" >> gradle.properties
+          echo "kotlin.code.style=official" >> gradle.properties
+          echo "org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8" >> gradle.properties
+          echo "=== root e ekhon ja ache ==="
           ls -la
 
       - name: Gradle সেটআপ
