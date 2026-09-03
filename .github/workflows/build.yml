@@ -29,23 +29,18 @@ jobs:
       - name: Create missing resources
         run: |
           mkdir -p app/src/main/res/values
-          mkdir -p app/src/main/res/mipmap-anydpi-v26
+          mkdir -p app/src/main/res/mipmap-hdpi
           echo '<resources>' > app/src/main/res/values/themes.xml
           echo '<style name="Theme.Material3.DayNight.NoActionBar" parent="android:Theme.Material.Light.NoActionBar"/>' >> app/src/main/res/values/themes.xml
           echo '</resources>' >> app/src/main/res/values/themes.xml
-          echo '<resources>' > app/src/main/res/values/colors.xml
-          echo '<color name="ic_bg">#1B6E53</color>' >> app/src/main/res/values/colors.xml
-          echo '</resources>' >> app/src/main/res/values/colors.xml
-          echo '<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">' > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-          echo '<background android:drawable="@color/ic_bg"/>' >> app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-          echo '<foreground android:drawable="@color/ic_bg"/>' >> app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-          echo '</adaptive-icon>' >> app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          echo "iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAHaUlEQVR4nO3dTajtVRmA8edY3qICEyssL04CuRENcqJ9EUbQpJD0Qs2ioEnENQdFTh04caDSsEHToJuQkZO+QIs0JMpBXswwyklaZDdITW+3wf8c3J299zl7n732Xu+73ucHZ3jX/e+11rPX/jxn77pzt19GKuqK3hcg9WQAKs0AVJoBqDQDUGkGoNIMQKUZgEozAJVmACrNAFSaAag0A1BpBqDSDEClGYBKMwCVZgAqzQBUmgGoNANQaQag0gxApRmASjMAlWYAKs0AVNobe1/A6J574Pz7Nvn3p+84+1Sra9G8PX85bhubbvR1GUYbBnBCu97wxzGIkzGANUTb9MsYw+oM4BhZNv0yxnA0A1gg+6ZfxhjmGcCMUTf+YYbwOgOgzsY/zBCKB1B14x9WOYSSAbjxF6sYQrmPQrj5l6s4N2VOgIqLu4kqp0GJE8DNv74qczZ8AFUWchsqzN2wD4EqLN4ujfqQaMgTwM3f3qhzOlwAoy5UBCPO7VABjLhA0Yw2x8MEMNrCRDbSXA8RwEgLksUoc54+gFEWIqMR5j51ACMsQHbZ1yBtANknfiSZ1yJlAJknfFRZ1yRdAFknuoKMa5MqgIwTXE22NUoTQLaJrSzTWqUJQNqGFAFkukfRJMuahQ8gy0RqXoa1Cx1AhgnU0aKvYegApG0LG0D0ew6tLvJahgwg8oTpZKKuqX8hZt53gJs3HOOzwIUG13LYO4BHNxzjAtP1iYAnQNR7Cm0u4tqGC0DapVABRLyHUFvR1jhUANKuhQkg2j2DtifSWocJQOohRACR7hG0G1HWPEQAUi8GoNK6BxDlKNTuRVj77gFIPRmASusaQIQjUH313gOeACrNAFRatwB6H32Ko+de8ARQaQag0gxApXUJwMf/OqzXnvAEUGkGoNIMQKUZgEozAJW28wB8BUjL9NgbngAqzQBUmgGoNANQaQag0gxApRmASjMAlWYAKs0AVJoBqDQDUGkGMO9SgzG2Na9vaDDGaw3GGIYBzHulwRjb+vvLLcZtcfuGYQDzWmyQtzQYY5G3NhjjPw3GGMbOAzh9x9mndv1/runfDcZ4e4MxFrmqwRgtbt9W9NgbngDz/tZgjGsbjLHIuxuM8UKDMYZhAPOebzDG9Q3GWOR0gzFa3L5hGMC8vzYY40yDMRZp8ZXBFrdvGAYw7w8Nxng/8OYG48zaAz7YYJxnGowxDAOY9xc2f6J4Cvhwg2uZ9QHgmg3H+C/wdINrGUaXAIK/EnQZuNBgnNsajDHrbIMxngVebjBOc732hCfAYo81GOMTtHnMDvAe4NYG47S4XUMxgMV+0WCMPeAeNn9T7Mr9cU5tfEVtbtdQDGCxJ4G/NxjnDPBtTv4O7ingW8BNDa7lJeDxBuMMpVsAwZ8HXAJ+0GisG4EHgU+t+e8+BpwHPt7oOh5miiCcnnthWx/aGsF54EuNxroeuB/4I/AI8CvgOeBF4CLwNuBqpnd6P8S0+Vu/l3C+8XhDMIDlngV+Anyy4Zjv3f/5YsMxV/EE8Nsd/58pdH0OEPxhEMADTK+dZ3df7wtYpvce8Enw0Z4Bvtv7Ijb0MPCb3hcRlQEc717gz70v4oSeB+7ufRGRdQ+g9xG4gpeBOwn6CsoRXgW+Dvyz94UsE2HtuweQxO+Br9Hm+8K7cBm4C/h17wuJzgBW9whwjqCfpZnxGvBN4Ee9LySDEAFEOApX9DPgC8T9UsmLwJeBhzpfx7GirHmIAJJ5EvgM8MPeF3LIT4FP4wfe1hImgCj3CCu6CHyD6Q2t33W+lgvAV4Cv0ubzS1sXaa19J3gzjwGfBz4CfA64hd3M6SXgUeB7wM+ZnvTqBPauO3d7qMlL/mdUr2b6HsBHmT7T0+LXmBz4F9OrOr8Efkyb316xc5Hu/cEToLV/AN/f/7mC6UNwZ4AbmH6jwzuBdzGF8SamjztfyfTKzSv7PxeZnmS/wPSBuaf3f/5Enpdh0wh3AkD6U0BLRLv3h0BPgqUeQgYQ8Z5Cm4m6piEDgLgTpvVFXsuwAUi7EDqAyPccWk30NQwdAMSfQC2XYe3CBwA5JlL/L8uapQhA2pY0AWS5R1GutUoTAOSa2KqyrVGqACDfBFeScW3SBQA5J3p0WdckZQCQd8JHlHkt0gYAuSd+FNnXIHUAkH8BMhth7tMHAGMsRDajzPkQAcA4C5LBSHM9TAAw1sJENdocDxUAjLdAkYw4t8MFAGMuVG+jzmnIL8W35BfsNzPqxj8w5Akwa/QF3KYKczd8AFBjIVurMmfDPwQ6zIdER6uy8Q+UOAFmVVvgdVScm3InwCxPg0nFjX+gdAAHqoZQeeMfMIAZVUJw47/OABYYNQQ3/jwDOEb2GNz0RzOANWSJwU2/OgM4oWgxuOlPxgAa2XUQbvg2DGDLNg3Djb5dBqDSyn0UQpplACrNAFSaAag0A1BpBqDSDEClGYBKMwCVZgAqzQBUmgGoNANQaQag0gxApRmASjMAlWYAKs0AVJoBqDQDUGkGoNIMQKUZgEozAJVmACrNAFTa/wACaesRIGAEbwAAAABJRU5ErkJggg==" | base64 -d > app/src/main/res/mipmap-hdpi/ic_launcher.png
           echo "resources created"
 
       - name: Gradle setup
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.7"
+          cache-disabled: true
 
       - name: Java setup
         uses: actions/setup-java@v4
@@ -58,7 +53,7 @@ jobs:
 
       - name: Build Release APK
         run: |
-          gradle assembleRelease --no-daemon \
+          gradle assembleRelease --no-daemon --no-build-cache \
             -Pandroid.injected.signing.store.file=$(pwd)/release.keystore \
             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
