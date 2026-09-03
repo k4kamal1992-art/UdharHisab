@@ -53,11 +53,23 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Build APK
-        run: gradle assembleDebug --no-daemon
+      - name: Generate signing keystore
+        run: |
+          keytool -genkeypair -v -keystore release.keystore -alias udharhisab \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass udhar12345 -keypass udhar12345 \
+            -dname "CN=UdharHisab, OU=Dev, O=UdharHisab, L=Dhaka, S=Dhaka, C=BD"
+
+      - name: Build Release APK
+        run: |
+          gradle assembleRelease --no-daemon \
+            -Pandroid.injected.signing.store.file=$(pwd)/release.keystore \
+            -Pandroid.injected.signing.store.password=udhar12345 \
+            -Pandroid.injected.signing.key.alias=udharhisab \
+            -Pandroid.injected.signing.key.password=udhar12345
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: UdharHisab-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: UdharHisab-Release-APK
+          path: app/build/outputs/apk/release/*.apk
